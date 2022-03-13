@@ -56,6 +56,15 @@ let apples = [{
     position: initPosition(),
 }]
 
+let nyawaa = [{
+    color: "red",
+    position: initPosition(),
+},
+{
+    color: "green",
+    position: initPosition(),
+}]
+
 function drawCell(ctx, x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -110,6 +119,14 @@ function draw() {
             ctx.drawImage(img, apple.position.x * CELL_SIZE, apple.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
 
+        for (let i = 0; i < nyawaa.length; i++) {
+            let nyawa = nyawaa[i];
+
+            // Soal no 3: DrawImage nyawa dan gunakan image id:
+            var img = document.getElementById("nyawa");
+            ctx.drawImage(img, nyawa.position.x * CELL_SIZE, nyawa.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        }
+
         drawScore(snake1);
         drawScore(snake2);
         // Soal no 6: Draw Player 3 Score:
@@ -144,28 +161,41 @@ function eat(snake, apples) {
     }
 }
 
+// Soal no 4: Jadikan nyawa array
+function eat(snake, nyawaa) {
+    for (let i = 0; i < nyawaa.length; i++) {
+        let nyawa = nyawaa[i];
+        if (snake.head.x == nyawa.position.x && snake.head.y == nyawa.position.y) {
+            nyawa.position = initPosition();
+            snake.score++;
+            snake.body.push({x: snake.head.x, y: snake.head.y});
+        }
+    }
+}
+
+
 function moveLeft(snake) {
     snake.head.x--;
     teleport(snake);
-    eat(snake, apples);
+    eat(snake, apples, nyawaa);
 }
 
 function moveRight(snake) {
     snake.head.x++;
     teleport(snake);
-    eat(snake, apples);
+    eat(snake, apples, nyawaa);
 }
 
 function moveDown(snake) {
     snake.head.y++;
     teleport(snake);
-    eat(snake, apples);
+    eat(snake, apples, nyawaa);
 }
 
 function moveUp(snake) {
     snake.head.y--;
     teleport(snake);
-    eat(snake, apples);
+    eat(snake, apples, nyawaa);
 }
 
 function checkCollision(snakes) {
