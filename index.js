@@ -1,6 +1,6 @@
 const CELL_SIZE = 20;
 // Soal no 1: Set canvas size menjadi 600
-const CANVAS_SIZE = 600;
+const CANVAS_SIZE = 500;
 const REDRAW_INTERVAL = 50;
 const WIDTH = CANVAS_SIZE / CELL_SIZE;
 const HEIGHT = CANVAS_SIZE / CELL_SIZE;
@@ -51,19 +51,13 @@ let apples = [{
     color: "red",
     position: initPosition(),
 },
-{
-    color: "green",
-    position: initPosition(),
-}]
+]
 
 let nyawaa = [{
     color: "red",
     position: initPosition(),
 },
-{
-    color: "green",
-    position: initPosition(),
-}]
+]
 
 function drawCell(ctx, x, y, color) {
     ctx.fillStyle = color;
@@ -100,6 +94,7 @@ function draw() {
             drawCell(ctx, snake1.body[i].x, snake1.body[i].y, snake1.color);
         }
 
+        /*
         drawCell(ctx, snake2.head.x, snake2.head.y, snake2.color);
         for (let i = 1; i < snake2.body.length; i++) {
             drawCell(ctx, snake2.body[i].x, snake2.body[i].y, snake2.color);
@@ -110,13 +105,15 @@ function draw() {
         for (let i = 1; i < snake3.body.length; i++) {
             drawCell(ctx, snake3.body[i].x, snake3.body[i].y, snake3.color);
         }
+        */
 
         for (let i = 0; i < apples.length; i++) {
             let apple = apples[i];
 
             // Soal no 3: DrawImage apple dan gunakan image id:
             var img = document.getElementById("apple");
-            ctx.drawImage(img, apple.position.x * CELL_SIZE, apple.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            //ctx.drawImage(img, apple.position.x * CELL_SIZE, apple.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            drawCell(ctx, apple.position.x, apple.position.y, apple.color);
         }
 
         for (let i = 0; i < nyawaa.length; i++) {
@@ -128,9 +125,9 @@ function draw() {
         }
 
         drawScore(snake1);
-        drawScore(snake2);
+        //drawScore(snake2);
         // Soal no 6: Draw Player 3 Score:
-        drawScore(snake3);
+        //drawScore(snake3);
     }, REDRAW_INTERVAL);
 }
 
