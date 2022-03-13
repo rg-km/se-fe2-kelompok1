@@ -11,7 +11,7 @@ const DIRECTION = {
     DOWN: 3,
 }
 // Soal no 2: Pengaturan Speed (semakin kecil semakin cepat) ubah dari 150 ke 120
-const MOVE_INTERVAL = 120;
+const MOVE_INTERVAL = 160;
 
 function initPosition() {
     return {
@@ -51,12 +51,28 @@ let apples = [{
     color: "red",
     position: initPosition(),
 },
+{
+    color: "blue",
+    position: initPosition(),
+},
+{
+    color: "green",
+    position: initPosition(),
+},
+{
+    color: "purple",
+    position: initPosition(),
+}
 ]
 
 let nyawaa = [{
     color: "red",
     position: initPosition(),
 },
+{
+    color: "green",
+    position: initPosition(),
+}
 ]
 
 function drawCell(ctx, x, y, color) {
@@ -112,6 +128,7 @@ function draw() {
             //drawCell(ctx, apple.position.x, apple.position.y, apple.color);
         }
 
+        drawScore(snake1);
         for (let i = 0; i < nyawaa.length; i++) {
             let nyawa = nyawaa[i];
 
@@ -120,7 +137,6 @@ function draw() {
             ctx.drawImage(img, nyawa.position.x * CELL_SIZE, nyawa.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
 
-        drawScore(snake1);
         //drawScore(snake2);
         // Soal no 6: Draw Player 3 Score:
         //drawScore(snake3);
@@ -143,34 +159,29 @@ function teleport(snake) {
 }
 
 // Soal no 4: Jadikan apples array
-function eat(snake, apples) {
+function eat(snake, apples, nyawaa) {
     for (let i = 0; i < apples.length; i++) {
         let apple = apples[i];
         if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
             apple.position = initPosition();
             snake.score++;
             snake.body.push({x: snake.head.x, y: snake.head.y});
-
-            //naik level dan kecepatan
-            if (snake.score % 5 === 0) {
-                MOVE_INTERVAL -= 20;
-            }
         }
     }
-}
 
-// Soal no 4: Jadikan nyawa array
-function eat(snake, nyawaa) {
     for (let i = 0; i < nyawaa.length; i++) {
         let nyawa = nyawaa[i];
         if (snake.head.x == nyawa.position.x && snake.head.y == nyawa.position.y) {
             nyawa.position = initPosition();
             snake.score++;
-            snake.body.push({x: snake.head.x, y: snake.head.y});
+            snake.body.push({ x: snake.head.x, y: snake.head.y });
         }
     }
+            //naik level dan kecepatan
+        //    if (snake.score % 5 === 0) {
+       //         MOVE_INTERVAL -= 20;
+        //    }
 }
-
 
 function moveLeft(snake) {
     snake.head.x--;
