@@ -42,9 +42,9 @@ function initSnake(color) {
     }
 }
 let snake1 = initSnake("purple");
-let snake2 = initSnake("blue");
+//let snake2 = initSnake("blue");
 // Soal no 6: add snake3
-let snake3 = initSnake("black");
+//let snake3 = initSnake("black");
 
 // Soal no 4: make apples array
 let apples = [{
@@ -69,10 +69,6 @@ function drawScore(snake) {
     let scoreCanvas;
     if (snake.color == snake1.color) {
         scoreCanvas = document.getElementById("score1Board");
-    } else if (snake.color == snake2.color) {
-        scoreCanvas = document.getElementById("score2Board");
-    } else {
-        scoreCanvas = document.getElementById("score3Board");
     }
     let scoreCtx = scoreCanvas.getContext("2d");
 
@@ -112,8 +108,8 @@ function draw() {
 
             // Soal no 3: DrawImage apple dan gunakan image id:
             var img = document.getElementById("apple");
-            //ctx.drawImage(img, apple.position.x * CELL_SIZE, apple.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-            drawCell(ctx, apple.position.x, apple.position.y, apple.color);
+            ctx.drawImage(img, apple.position.x * CELL_SIZE, apple.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            //drawCell(ctx, apple.position.x, apple.position.y, apple.color);
         }
 
         for (let i = 0; i < nyawaa.length; i++) {
@@ -154,6 +150,11 @@ function eat(snake, apples) {
             apple.position = initPosition();
             snake.score++;
             snake.body.push({x: snake.head.x, y: snake.head.y});
+
+            //naik level dan kecepatan
+            if (snake.score % 5 === 0) {
+                MOVE_INTERVAL -= 20;
+            }
         }
     }
 }
@@ -209,12 +210,12 @@ function checkCollision(snakes) {
     }
     if (isCollide) {
         // Soal no 5: Add game over audio:
-        var audio = new Audio('game-over.mp3');
+        var audio = new Audio('assets/game-over.mp3');
         audio.play();
 
         alert("Game over");
         snake1 = initSnake("purple");
-        snake2 = initSnake("blue");
+        //snake2 = initSnake("blue");
     }
     return isCollide;
 }
@@ -236,7 +237,7 @@ function move(snake) {
     }
     moveBody(snake);
     // Soal no 6: Check collision dengan snake3
-    if (!checkCollision([snake1, snake2, snake3])) {
+    if (!checkCollision([snake1])) {
         setTimeout(function() {
             move(snake);
         }, MOVE_INTERVAL);
@@ -274,6 +275,7 @@ document.addEventListener("keydown", function (event) {
         turn(snake1, DIRECTION.DOWN);
     }
 
+    /*
     if (event.key === "a") {
         turn(snake2, DIRECTION.LEFT);
     } else if (event.key === "d") {
@@ -294,12 +296,13 @@ document.addEventListener("keydown", function (event) {
     } else if (event.key === "k") {
         turn(snake3, DIRECTION.DOWN);
     }
+    */
 })
 
 function initGame() {
     move(snake1);
-    move(snake2);
-    move(snake3);
+    //move(snake2);
+    //move(snake3);
 }
 
 initGame();
