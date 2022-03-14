@@ -39,10 +39,23 @@ function initSnake(color) {
         ...initHeadAndBody(),
         direction: initDirection(),
         score: 0,
-        speed: MOVE_INTERVAL,
+        life: 3,
     }
 }
+
+//draw life di pojok kiri atas
+/*
+function initLife() {
+    let snakeCanvas = document.getElementById("snakeBoard");
+    let ctx = snakeCanvas.getContext("2d");
+
+    var img = document.getElementById("nyawa");
+    ctx.drawImage(img, 0, 0, CELL_SIZE, CELL_SIZE);
+}
+*/
+
 let snake1 = initSnake("purple");
+//let lifes = initLife();
 //let snake2 = initSnake("blue");
 // Soal no 6: add snake3
 //let snake3 = initSnake("black");
@@ -106,22 +119,28 @@ function drawSpeed(snake) {
         MOVE_INTERVAL = 150;
         levelCtx.font = "20px Arial";
         levelCtx.fillText("Level 1", 10, levelCanvas.scrollHeight / 2);
-    } else if (scores >=5 && scores < 10) {
+    } else if (scores >= 5 && scores < 10) {
         MOVE_INTERVAL = 130;
         levelCtx.font = "20px Arial";
         levelCtx.fillText("Level 2", 10, levelCanvas.scrollHeight / 2);
-    } else if (scores >=10 && scores < 15) {
+    } else if (scores >= 10 && scores < 15) {
         MOVE_INTERVAL = 110;
         levelCtx.font = "20px Arial";
         levelCtx.fillText("Level 3", 10, levelCanvas.scrollHeight / 2);
-    } else if (scores >=15 && scores < 20) {
+    } else if (scores >= 15 && scores < 20) {
         MOVE_INTERVAL = 90;
         levelCtx.font = "20px Arial";
         levelCtx.fillText("Level 4", 10, levelCanvas.scrollHeight / 2);
-    } else if (scores >=20) {
+    } else if (scores >= 20) {
         MOVE_INTERVAL = 70;
         levelCtx.font = "20px Arial";
         levelCtx.fillText("Level 5", 10, levelCanvas.scrollHeight / 2);
+    }
+
+    if (scores >= 5 && scores % 5 === 0) {
+        var audio = new Audio('assets/level_up.mp3');
+        audio.loop = false;
+        audio.play();
     }
     
         /*
@@ -223,16 +242,15 @@ function eat(snake, apples) {
     }
 }
 
-//speed dan naik level
-
 // Soal no 4: Jadikan nyawa array
-function eat(snake, nyawaa) {
+function life(snake, nyawaa) {
     for (let i = 0; i < nyawaa.length; i++) {
         let nyawa = nyawaa[i];
         if (snake.head.x == nyawa.position.x && snake.head.y == nyawa.position.y) {
             nyawa.position = initPosition();
-            snake.score++;
-            snake.body.push({x: snake.head.x, y: snake.head.y});
+            snake.life++;
+            //snake.body.push({x: snake.head.x, y: snake.head.y});
+            console.log(snake.life);
         }
     }
 }
@@ -241,35 +259,48 @@ function eat(snake, nyawaa) {
 function moveLeft(snake) {
     snake.head.x--;
     teleport(snake);
-    eat(snake, apples, nyawaa);
+    eat(snake, apples);
+    life(snake, nyawaa);
 }
 
 function moveRight(snake) {
     snake.head.x++;
     teleport(snake);
-    eat(snake, apples, nyawaa);
+    eat(snake, apples);
+    life(snake, nyawaa);
 }
 
 function moveDown(snake) {
     snake.head.y++;
     teleport(snake);
-    eat(snake, apples, nyawaa);
+    eat(snake, apples);
+    life(snake, nyawaa);
 }
 
 function moveUp(snake) {
     snake.head.y--;
     teleport(snake);
-    eat(snake, apples, nyawaa);
+    eat(snake, apples);
+    life(snake, nyawaa);
 }
 
-function checkCollision(snakes) {
+function checkCollision(snake) {
     let isCollide = false;
+    
     //this
-    for (let i = 0; i < snakes.length; i++) {
-        for (let j = 0; j < snakes.length; j++) {
-            for (let k = 1; k < snakes[j].body.length; k++) {
-                if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
+    for (let i = 0; i < snake.length; i++) {
+        for (let j = 0; j < snake.length; j++) {
+            for (let k = 1; k < snake[j].body.length; k++) {
+                if (snake[i].head.x == snake[j].body[k].x && snake[i].head.y == snake[j].body[k].y) {
                     isCollide = true;
+                    
+                    //console.log(snake.life);
+                    
+                    /*snake[i].life--;
+                    if (snake[i].life === 0) {
+                        isCollide = true;
+                    } */
+                    
                 }
             }
         }
