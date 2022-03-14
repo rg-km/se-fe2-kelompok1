@@ -40,6 +40,7 @@ function initSnake(color) {
         direction: initDirection(),
         score: 0,
         life: 3,
+        speed: MOVE_INTERVAL,
     }
 }
 
@@ -152,9 +153,10 @@ function drawSpeed(snake) {
         audio.play();
     }
 
-    //console.log(scores);
-    //console.log(cekPrima(scores));
-
+    console.log(scores);
+    console.log(cekPrima(scores));
+    console.log(MOVE_INTERVAL);
+    
     if (scores >= 2 && cekPrima(scores) === true) {
         setInterval(function() {
             let snakeCanvas = document.getElementById("snakeBoard");
@@ -167,8 +169,8 @@ function drawSpeed(snake) {
                 var img = document.getElementById("nyawa");
                 ctx.drawImage(img, nyawa.position.x * CELL_SIZE, nyawa.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
             }
-        }, REDRAW_INTERVAL);
-    }
+        }, MOVE_INTERVAL);
+    } 
 
     
         /*
@@ -227,6 +229,8 @@ function draw() {
             //drawCell(ctx, apple.position.x, apple.position.y, apple.color);
         }
 
+        
+
         /*
         for (let i = 0; i < nyawaa.length; i++) {
             let nyawa = nyawaa[i];
@@ -234,7 +238,7 @@ function draw() {
             // Soal no 3: DrawImage nyawa dan gunakan image id:
             var img = document.getElementById("nyawa");
             ctx.drawImage(img, nyawa.position.x * CELL_SIZE, nyawa.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        } */
+        }  */
 
         drawScore(snake1);
         drawSpeed(snake1);
