@@ -82,8 +82,10 @@ function drawScore(snake) {
     let scoreCtx = scoreCanvas.getContext("2d");
 
     scoreCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    //scoreCtx.fillStyle = snake.color;
+    scoreCtx.font = "20px Arial";
+    scoreCtx.fillText("Score", 10, 20);
     scoreCtx.font = "30px Arial";
-    scoreCtx.fillStyle = snake.color;
     scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
 }
 
@@ -91,23 +93,38 @@ function drawSpeed(snake) {
     let speedCanvas;
     if (snake.color == snake1.color) {
         speedCanvas = document.getElementById("moveSpeed");
+        levelCanvas = document.getElementById("level"); //canvas level
     }
     let speedCtx = speedCanvas.getContext("2d");
+    let levelCtx = levelCanvas.getContext("2d"); //canvas level
 
     speedCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    levelCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE); //rect level
     speedCtx.font = "30px Arial";
-    speedCtx.fillStyle = snake.color;
+    //speedCtx.fillStyle = snake.color;
     
     //console.log(snake.score);
+    //menentukan speed dan level berdasarkan score
     let scores = snake.score;
-    if (scores >=5 && scores < 10) {
+    if (scores >=0 && scores <5) {
+        levelCtx.font = "20px Arial";
+        levelCtx.fillText("Level 1", 10, levelCanvas.scrollHeight / 2);
+    } else if (scores >=5 && scores < 10) {
         MOVE_INTERVAL = 130;
+        levelCtx.font = "20px Arial";
+        levelCtx.fillText("Level 2", 10, levelCanvas.scrollHeight / 2);
     } else if (scores >=10 && scores < 15) {
         MOVE_INTERVAL = 110;
+        levelCtx.font = "20px Arial";
+        levelCtx.fillText("Level 3", 10, levelCanvas.scrollHeight / 2);
     } else if (scores >=15 && scores < 20) {
         MOVE_INTERVAL = 90;
+        levelCtx.font = "20px Arial";
+        levelCtx.fillText("Level 4", 10, levelCanvas.scrollHeight / 2);
     } else if (scores >=20) {
         MOVE_INTERVAL = 70;
+        levelCtx.font = "20px Arial";
+        levelCtx.fillText("Level 5", 10, levelCanvas.scrollHeight / 2);
     }
     
         /*
@@ -122,6 +139,8 @@ function drawSpeed(snake) {
         }*/
     //modulos = scores + 5;
     //console.log(modulos);
+    speedCtx.font = "20px Arial";
+    speedCtx.fillText("Speed", 10, 20);
     speedCtx.fillText(MOVE_INTERVAL, 10, speedCanvas.scrollHeight / 2);
 }
 
@@ -255,11 +274,11 @@ function checkCollision(snakes) {
     }
     if (isCollide) {
         // Soal no 5: Add game over audio:
+        alert("Game over");
+        snake1 = initSnake("purple");
         var audio = new Audio('assets/game-over.mp3');
         audio.play();
 
-        alert("Game over");
-        snake1 = initSnake("purple");
         //snake2 = initSnake("blue");
     }
     return isCollide;
