@@ -62,6 +62,10 @@ let nyawaa = [{
     color: "red",
     position: initPosition(),
 },
+{
+    color: "green",
+    position: initPosition(),
+}
 ]
 
 function drawCell(ctx, x, y, color) {
@@ -155,6 +159,7 @@ function draw() {
             //drawCell(ctx, apple.position.x, apple.position.y, apple.color);
         }
 
+        drawScore(snake1);
         for (let i = 0; i < nyawaa.length; i++) {
             let nyawa = nyawaa[i];
 
@@ -164,7 +169,6 @@ function draw() {
         }
 
         drawScore(snake1);
-        drawSpeed(snake1);
         //drawScore(snake2);
         // Soal no 6: Draw Player 3 Score:
         //drawScore(snake3);
@@ -187,7 +191,7 @@ function teleport(snake) {
 }
 
 // Soal no 4: Jadikan apples array
-function eat(snake, apples) {
+function eat(snake, apples, nyawaa) {
     for (let i = 0; i < apples.length; i++) {
         let apple = apples[i];
         if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
@@ -196,9 +200,6 @@ function eat(snake, apples) {
             snake.body.push({x: snake.head.x, y: snake.head.y});
         }
     }
-}
-
-//speed dan naik level
 
 // Soal no 4: Jadikan nyawa array
 function eat(snake, nyawaa) {
@@ -207,11 +208,14 @@ function eat(snake, nyawaa) {
         if (snake.head.x == nyawa.position.x && snake.head.y == nyawa.position.y) {
             nyawa.position = initPosition();
             snake.score++;
-            snake.body.push({x: snake.head.x, y: snake.head.y});
+            snake.body.push({ x: snake.head.x, y: snake.head.y });
         }
     }
+            //naik level dan kecepatan
+        //    if (snake.score % 5 === 0) {
+       //         MOVE_INTERVAL -= 20;
+        //    }
 }
-
 
 function moveLeft(snake) {
     snake.head.x--;
