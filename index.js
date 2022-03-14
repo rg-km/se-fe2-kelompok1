@@ -11,7 +11,7 @@ const DIRECTION = {
     DOWN: 3,
 }
 // Soal no 2: Pengaturan Speed (semakin kecil semakin cepat) ubah dari 150 ke 120
-const MOVE_INTERVAL = 120;
+let MOVE_INTERVAL = 150;
 
 function initPosition() {
     return {
@@ -39,6 +39,7 @@ function initSnake(color) {
         ...initHeadAndBody(),
         direction: initDirection(),
         score: 0,
+        speed: MOVE_INTERVAL,
     }
 }
 let snake1 = initSnake("purple");
@@ -49,6 +50,10 @@ let snake1 = initSnake("purple");
 // Soal no 4: make apples array
 let apples = [{
     color: "red",
+    position: initPosition(),
+},
+{
+    color: "green",
     position: initPosition(),
 },
 ]
@@ -74,8 +79,46 @@ function drawScore(snake) {
 
     scoreCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     scoreCtx.font = "30px Arial";
-    scoreCtx.fillStyle = snake.color
+    scoreCtx.fillStyle = snake.color;
     scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
+}
+
+function drawSpeed(snake) {
+    let speedCanvas;
+    if (snake.color == snake1.color) {
+        speedCanvas = document.getElementById("moveSpeed");
+    }
+    let speedCtx = speedCanvas.getContext("2d");
+
+    speedCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    speedCtx.font = "30px Arial";
+    speedCtx.fillStyle = snake.color;
+    
+    //console.log(snake.score);
+    let scores = snake.score;
+    if (scores >=5 && scores < 10) {
+        MOVE_INTERVAL = 130;
+    } else if (scores >=10 && scores < 15) {
+        MOVE_INTERVAL = 110;
+    } else if (scores >=15 && scores < 20) {
+        MOVE_INTERVAL = 90;
+    } else if (scores >=20) {
+        MOVE_INTERVAL = 70;
+    }
+    
+        /*
+        if (scores % 5 === 0) {
+            snake.speed -=10;
+            console.log(snake.speed);
+            while (scores % 5 === 0) {
+                MOVE_INTERVAL = snake.speed;
+                console.log(snake.speed);
+                console.log(MOVE_INTERVAL);
+            }
+        }*/
+    //modulos = scores + 5;
+    //console.log(modulos);
+    speedCtx.fillText(MOVE_INTERVAL, 10, speedCanvas.scrollHeight / 2);
 }
 
 function draw() {
@@ -121,6 +164,7 @@ function draw() {
         }
 
         drawScore(snake1);
+        drawSpeed(snake1);
         //drawScore(snake2);
         // Soal no 6: Draw Player 3 Score:
         //drawScore(snake3);
@@ -150,14 +194,11 @@ function eat(snake, apples) {
             apple.position = initPosition();
             snake.score++;
             snake.body.push({x: snake.head.x, y: snake.head.y});
-
-            //naik level dan kecepatan
-            if (snake.score % 5 === 0) {
-                MOVE_INTERVAL -= 20;
-            }
         }
     }
 }
+
+//speed dan naik level
 
 // Soal no 4: Jadikan nyawa array
 function eat(snake, nyawaa) {
