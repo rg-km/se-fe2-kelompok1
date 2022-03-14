@@ -98,6 +98,15 @@ function drawScore(snake) {
     scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
 }
 
+function cekPrima(score) {
+    var max = Math.sqrt(score);
+    for( var i = 2;  i <= max;  i++ ) {
+        if( score % i == 0 )
+            return false;
+    }
+    return true;
+}
+
 function drawSpeed(snake) {
     let speedCanvas;
     if (snake.color == snake1.color) {
@@ -142,6 +151,25 @@ function drawSpeed(snake) {
         audio.loop = false;
         audio.play();
     }
+
+    //console.log(scores);
+    //console.log(cekPrima(scores));
+
+    if (scores >= 2 && cekPrima(scores) === true) {
+        setInterval(function() {
+            let snakeCanvas = document.getElementById("snakeBoard");
+            let ctx = snakeCanvas.getContext("2d");
+    
+            for (let i = 0; i < nyawaa.length; i++) {
+                let nyawa = nyawaa[i];
+    
+                // Soal no 3: DrawImage nyawa dan gunakan image id:
+                var img = document.getElementById("nyawa");
+                ctx.drawImage(img, nyawa.position.x * CELL_SIZE, nyawa.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            }
+        }, REDRAW_INTERVAL);
+    }
+
     
         /*
         if (scores % 5 === 0) {
@@ -199,13 +227,14 @@ function draw() {
             //drawCell(ctx, apple.position.x, apple.position.y, apple.color);
         }
 
+        /*
         for (let i = 0; i < nyawaa.length; i++) {
             let nyawa = nyawaa[i];
 
             // Soal no 3: DrawImage nyawa dan gunakan image id:
             var img = document.getElementById("nyawa");
             ctx.drawImage(img, nyawa.position.x * CELL_SIZE, nyawa.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        }
+        } */
 
         drawScore(snake1);
         drawSpeed(snake1);
