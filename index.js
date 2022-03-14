@@ -249,6 +249,7 @@ function life(snake, nyawaa) {
         if (snake.head.x == nyawa.position.x && snake.head.y == nyawa.position.y) {
             nyawa.position = initPosition();
             snake.life++;
+            snake.score++;
             //snake.body.push({x: snake.head.x, y: snake.head.y});
             console.log(snake.life);
         }
